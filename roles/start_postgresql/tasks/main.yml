@@ -21,9 +21,6 @@
     state: started
     enabled: yes
 
-- name: Allow to listen all adresses
-  shell: postgres -c listen_addresses='*'
-
 - name: Change pg_hba.conf
   copy:
     src: pg_hba.conf
