@@ -1,0 +1,19 @@
+---
+- name: Set timezone to Europe/Moscow
+  timezone:
+    name: Europe/Moscow
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Upgrade all packages
+  apt:
+    upgrade: dist
+
+- name: Install basic packages
+  apt:
+    name:
+      - curl
+      - gnupg2
+    state: present
