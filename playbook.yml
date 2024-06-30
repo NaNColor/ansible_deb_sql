@@ -1,0 +1,6 @@
+- name: Configure debian, install and run PostgreSQL
+  hosts: all
+  become: yes
+  roles:
+    - debian_setup
+    - start_postgresql

@@ -1,0 +1,41 @@
+---
+- name: Set timezone to Europe/Moscow
+  timezone:
+    name: Europe/Moscow
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Upgrade all packages
+  apt:
+    upgrade: dist
+
+- name: Install basic packages
+  apt:
+    name:
+      - curl
+      - gnupg2
+    state: present
+
+- name: Import repository GPG key
+  shell:
+    "curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg"
+  register: os_info
+- debug:
+  msg: "{{os_info.stdout_lines}}"
+
+- name: To configure PostgreSQL repository
+  shell: sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+  register: os_info
+- debug:
+  msg: "{{os_info.stdout_lines}}"
+  
+- name: Update apt cache after adding PostgreSQL repo
+  apt:
+    update_cache: yes
+
+- name: Install PostgreSQL
+  apt:
+    name: postgresql-16
+    state: present
